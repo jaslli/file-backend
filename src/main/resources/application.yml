@@ -1,0 +1,75 @@
+
+server:
+  # 服务端口号
+  port: 5397
+spring:
+  # 应用名称
+  application:
+    name: File
+  # jackson时间配置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  # 上传文件配置
+  servlet:
+    multipart:
+      # 单个最大文件大小
+      max-file-size: 30MB
+      # 总体文件最大请求大小
+      max-request-size: 100MB
+  # 数据库配置(Druid)
+  datasource:
+    druid:
+      db-type: com.alibaba.druid.pool.DruidDataSource
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/file?userUnicode=true&useSSL=false&characterEncoding=utf-8&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      username: root
+      password: password
+      # 初始连接数
+      initial-size: 1
+      # 最小连接数
+      min-idle: 3
+      # 最大连接数
+      max-active: 100
+      # 获取连接超时时间
+      max-wait: 5000
+      # 连接有效性检测时间
+      time-between-eviction-runs-millis: 60000
+      # 连接在池中最小生存的时间
+      min-evictable-idle-time-millis: 100000
+      # 连接在池中最大生存的时间
+      max-evictable-idle-time-millis: 100000
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      # 检测连接是否有效
+      validation-query: select 1
+      # 配置监控统计
+      webStatFilter:
+        enabled: false
+      #安全配置
+      stat-view-servlet:
+        enabled: false
+        url-pattern: /druid/*
+        reset-enable: false
+        login-username: admin
+        login-password: wslioy1920
+      # 过滤配置
+      filter:
+        stat:
+          enabled: true
+          # 记录慢SQL
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+  # redis配置
+# mybatis-plus配置
+mybatis-plus:
+  mapper-locations: classpath*:/xml/*.xml
+  global-config:
+    db-config:
+      # 全局逻辑删除的实体字段名
+      logic-delete-field: status
