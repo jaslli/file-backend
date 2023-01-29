@@ -3,10 +3,11 @@ package com.yww.filebackend.controller;
 import com.yww.filebackend.common.Result;
 import com.yww.filebackend.entity.SysFile;
 import com.yww.filebackend.service.SysFileService;
-import com.yww.filebackend.utils.AssertUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Min;
 import java.util.List;
 
 /**
@@ -16,8 +17,9 @@ import java.util.List;
  *
  * @author yww
  */
-@RestController
+@Validated
 @CrossOrigin
+@RestController
 @RequestMapping("/file")
 public class SysFileController {
 
@@ -32,8 +34,7 @@ public class SysFileController {
      * 根据ID获取文件信息
      */
     @GetMapping("/getById/{id}")
-    public Result<SysFile> getById(@PathVariable Integer id) {
-        AssertUtil.notNull(id, "文件ID不能为空！");
+    public Result<SysFile> getById(@Min(value = 0, message = "文件ID异常") @PathVariable Integer id) {
         return Result.success(service.getById(id));
     }
 
@@ -46,8 +47,7 @@ public class SysFileController {
     }
 
     @DeleteMapping("/deleteById/{id}")
-    public Result<String> deleteById(@PathVariable Integer id) {
-        AssertUtil.notNull(id, "文件ID不能为空！");
+    public Result<String> deleteById(@Min(value = 0, message = "文件ID异常") @PathVariable Integer id) {
         if (service.removeById(id)) {
             return Result.success("删除成功！");
         } else {

@@ -1,5 +1,6 @@
 package com.yww.filebackend.controller;
 
+import com.yww.filebackend.annotation.FileNotNull;
 import com.yww.filebackend.common.Result;
 import com.yww.filebackend.entity.SysFile;
 import com.yww.filebackend.service.SysFileService;
@@ -12,9 +13,12 @@ import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -24,8 +28,9 @@ import java.nio.charset.StandardCharsets;
  *
  * @author yww
  */
-@RestController
+@Validated
 @CrossOrigin
+@RestController
 public class FileController {
 
     private final SysFileService service;
@@ -39,7 +44,7 @@ public class FileController {
      * 上传文件并保存
      */
     @PostMapping("upload/saveFile")
-    public Result<SysFile> getById(@RequestPart MultipartFile file) {
+    public Result<SysFile> getById(@FileNotNull(message = "ces") @RequestPart MultipartFile file) {
         AssertUtil.notNull(file, "文件不能为空");
         SysFile sysFile = FileUtil.saveFile(file);
         service.save(sysFile);
@@ -50,7 +55,8 @@ public class FileController {
      * 通过文件ID更新文件
      */
     @PutMapping ("/updateById/{fileId}")
-    public Result<SysFile> updateById(@PathVariable Integer fileId, @RequestPart MultipartFile file) {
+    public Result<SysFile> updateById(@Min(value = 0, message = "文件ID异常") @PathVariable Integer fileId,
+                                      @NotNull(message = "文件不能为空") @RequestPart MultipartFile file) {
         SysFile newFile = FileUtil.saveFile(file);
         SysFile sysFile = service.getById(fileId);
         sysFile.setFileName(newFile.getFileName());
@@ -70,8 +76,7 @@ public class FileController {
      * @return          文件
      */
     @GetMapping("/download/{fileId}")
-    public ResponseEntity<Resource> download(@PathVariable Integer fileId) {
-        AssertUtil.notNull(fileId, "文件ID不能为空！");
+    public ResponseEntity<Resource> download(@Min(value = 0, message = "文件ID异常") @PathVariable Integer fileId) {
         SysFile sysFile = service.getById(fileId);
         System.out.println(sysFile);
         AssertUtil.notNull(sysFile, "找不到对应的文件！");
