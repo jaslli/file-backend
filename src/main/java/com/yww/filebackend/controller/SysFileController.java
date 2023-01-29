@@ -3,6 +3,7 @@ package com.yww.filebackend.controller;
 import com.yww.filebackend.common.Result;
 import com.yww.filebackend.entity.SysFile;
 import com.yww.filebackend.service.SysFileService;
+import com.yww.filebackend.utils.AssertUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,7 @@ public class SysFileController {
      */
     @GetMapping("/getById/{id}")
     public Result<SysFile> getById(@PathVariable Integer id) {
+        AssertUtil.notNull(id, "文件ID不能为空！");
         return Result.success(service.getById(id));
     }
 
@@ -41,6 +43,16 @@ public class SysFileController {
     @GetMapping("/getAll")
     public Result<List<SysFile>> getAll() {
         return Result.success(service.list());
+    }
+
+    @DeleteMapping("/deleteById/{id}")
+    public Result<String> deleteById(@PathVariable Integer id) {
+        AssertUtil.notNull(id, "文件ID不能为空！");
+        if (service.removeById(id)) {
+            return Result.success("删除成功！");
+        } else {
+            return Result.failure("删除失败！");
+        }
     }
 
 }
