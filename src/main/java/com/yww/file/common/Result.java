@@ -1,6 +1,6 @@
-package com.yww.filebackend.common;
+package com.yww.file.common;
 
-import com.yww.filebackend.common.constant.ResultCode;
+import com.yww.file.common.constant.ResultCode;
 import lombok.Data;
 
 /**
@@ -11,6 +11,7 @@ import lombok.Data;
  * @author yww
  */
 @Data
+@SuppressWarnings("all")
 public class Result<T> {
 
     /**
@@ -31,8 +32,7 @@ public class Result<T> {
     /**
      * 私有化无参构造函数
      */
-    private Result() {
-    }
+    private Result() {}
 
     /**
      * 全参构造函数

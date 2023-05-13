@@ -1,6 +1,6 @@
-package com.yww.filebackend.common.validator;
+package com.yww.file.common.validator;
 
-import com.yww.filebackend.annotation.FileNotNull;
+import com.yww.file.annotation.FileNotNull;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.ConstraintValidator;

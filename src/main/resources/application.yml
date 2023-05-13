@@ -53,7 +53,7 @@ spring:
         url-pattern: /druid/*
         reset-enable: false
         login-username: admin
-        login-password: wslioy1920
+        login-password: password
       # 过滤配置
       filter:
         stat:
@@ -65,7 +65,7 @@ spring:
         wall:
           config:
             multi-statement-allow: true
-  # redis配置
+
 # mybatis-plus配置
 mybatis-plus:
   mapper-locations: classpath*:/xml/*.xml
@@ -73,3 +73,6 @@ mybatis-plus:
     db-config:
       # 全局逻辑删除的实体字段名
       logic-delete-field: status
+
+file:
+  save-path: D:/file

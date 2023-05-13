@@ -1,4 +1,4 @@
-package com.yww.filebackend;
+package com.yww.file;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,10 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author yww
  */
 @SpringBootApplication
-public class FileBackendApplication {
+public class FileApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FileBackendApplication.class, args);
+        SpringApplication.run(FileApplication.class, args);
     }
 
 }

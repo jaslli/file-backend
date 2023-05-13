@@ -1,8 +1,8 @@
-package com.yww.filebackend.controller;
+package com.yww.file.controller;
 
-import com.yww.filebackend.common.Result;
-import com.yww.filebackend.entity.SysFile;
-import com.yww.filebackend.service.SysFileService;
+import com.yww.file.common.Result;
+import com.yww.file.entity.SysFile;
+import com.yww.file.service.SysFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +20,7 @@ import java.util.List;
 @Validated
 @CrossOrigin
 @RestController
-@RequestMapping("/file")
+@RequestMapping("/sysFile")
 public class SysFileController {
 
     private final SysFileService service;

@@ -1,8 +1,8 @@
-package com.yww.filebackend.handler.exception;
+package com.yww.file.handler.exception;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.yww.filebackend.common.GlobalException;
-import com.yww.filebackend.common.Result;
+import com.yww.file.common.BusinessException;
+import com.yww.file.common.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -27,8 +27,8 @@ public class ControllerAdviceHandler {
      * @param e 服务异常
      * @return 异常信息
      */
-    @ExceptionHandler(value = GlobalException.class)
-    public <T> Result<T> globalExceptionHandler(GlobalException e, HttpServletRequest request) {
+    @ExceptionHandler(value = BusinessException.class)
+    public <T> Result<T> globalExceptionHandler(BusinessException e, HttpServletRequest request) {
         log.error(">> global exception: {}, {}, {}", request.getRequestURI(), e.getCode(), e.getMessage());
         String errMessage = e.getMessage();
         // 防止空的错误信息

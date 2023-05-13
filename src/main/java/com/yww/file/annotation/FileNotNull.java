@@ -1,7 +1,7 @@
-package com.yww.filebackend.annotation;
+package com.yww.file.annotation;
 
 
-import com.yww.filebackend.common.validator.FileNotNullValidator;
+import com.yww.file.common.validator.FileNotNullValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -25,6 +25,7 @@ import static java.lang.annotation.ElementType.*;
 @Constraint(
         validatedBy = {FileNotNullValidator.class}
 )
+@SuppressWarnings("all")
 public @interface FileNotNull {
 
     String message() default "传入的文件不能为空！";

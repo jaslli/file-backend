@@ -1,4 +1,4 @@
-package com.yww.filebackend.config;
+package com.yww.file.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  * @author yww
  */
 @Configuration
-@MapperScan("com.yww.filebackend.mapper")
+@MapperScan("com.yww.file.mapper")
 public class MybatisPlusConfig {
 
     /**

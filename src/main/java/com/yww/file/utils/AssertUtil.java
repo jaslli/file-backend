@@ -1,6 +1,6 @@
-package com.yww.filebackend.utils;
+package com.yww.file.utils;
 
-import com.yww.filebackend.common.GlobalException;
+import com.yww.file.common.BusinessException;
 
 /**
  * <p>
@@ -22,11 +22,11 @@ public class AssertUtil {
      *
      * @param object  要判断的对象
      * @param message 断言失败时的错误信息
-     * @throws GlobalException 全局异常类
+     * @throws BusinessException 全局异常类
      */
-    public static void notNull(Object object, String message) throws GlobalException {
+    public static void notNull(Object object, String message) throws BusinessException {
         if (object == null) {
-            throw new GlobalException(message);
+            throw new BusinessException(message);
         }
     }
 

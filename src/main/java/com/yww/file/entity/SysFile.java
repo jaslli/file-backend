@@ -1,6 +1,7 @@
-package com.yww.filebackend.entity;
+package com.yww.file.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -49,6 +50,13 @@ public class SysFile implements Serializable {
      */
     @TableField("size")
     private Long size;
+
+    /**
+     * SHA-256的文件哈希值
+     */
+    @JsonIgnore
+    @TableField("hash")
+    private String hash;
 
     /**
      * 逻辑删除状态 0-正常 1-已删除

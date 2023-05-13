@@ -1,7 +1,7 @@
-package com.yww.filebackend.mapper;
+package com.yww.file.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.yww.filebackend.entity.SysFile;
+import com.yww.file.entity.SysFile;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,4 +13,13 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface SysFileMapper extends BaseMapper<SysFile> {
+
+    /**
+     * 通过hash值查询文件
+     *
+     * @param hash  hash值
+     * @return      文件信息对象
+     */
+    SysFile selectByHash(String hash);
+
 }

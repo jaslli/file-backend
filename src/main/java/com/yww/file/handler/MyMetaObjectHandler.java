@@ -1,4 +1,4 @@
-package com.yww.filebackend.handler;
+package com.yww.file.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;

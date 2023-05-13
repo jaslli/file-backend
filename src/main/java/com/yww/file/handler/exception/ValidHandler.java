@@ -1,7 +1,7 @@
-package com.yww.filebackend.handler.exception;
+package com.yww.file.handler.exception;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.yww.filebackend.common.Result;
+import com.yww.file.common.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

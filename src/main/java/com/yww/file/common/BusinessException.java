@@ -1,4 +1,4 @@
-package com.yww.filebackend.common;
+package com.yww.file.common;
 
 import lombok.Getter;
 
@@ -10,7 +10,7 @@ import lombok.Getter;
  * @author yww
  */
 @Getter
-public class GlobalException extends RuntimeException {
+public class BusinessException extends RuntimeException {
 
     private static final long serialVersionUID = -1574716826948451793L;
 
@@ -24,13 +24,8 @@ public class GlobalException extends RuntimeException {
      */
     private final String message;
 
-    public GlobalException(String message) {
+    public BusinessException(String message) {
         this.code = 500;
-        this.message = message;
-    }
-
-    public GlobalException(Integer code, String message) {
-        this.code = code;
         this.message = message;
     }
 
