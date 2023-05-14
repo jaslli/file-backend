@@ -50,7 +50,35 @@ public class FileService {
         } catch (IOException e) {
             throw new BusinessException(e.getMessage());
         }
-        return commonSave(file, hash);
+        // 保存文件
+        return saveFileByHash(hash, file);
+    }
+
+    public SysFile saveFileByHash(String hash, MultipartFile file) {
+        String originalFilename = file.getOriginalFilename();
+        String path = FileUtil.getSavePath(savePath, originalFilename);
+        File dest = new File(path);
+        // 若是路径不存在就先创建父级目录
+        if (!dest.exists()) {
+            cn.hutool.core.io.FileUtil.touch(dest);
+        }
+        // 保存文件
+        try {
+            file.transferTo(dest);
+        } catch (IOException e) {
+            log.error("保存文件出错，保存的文件名称为：" + originalFilename);
+            log.error("保存文件出错，保存的路径为：" + path);
+            throw new BusinessException(e.getMessage());
+        }
+        // 保存记录并返回
+        SysFile resFile = SysFile.builder()
+                .fileName(originalFilename)
+                .path(path)
+                .size(file.getSize())
+                .hash(hash)
+                .build();
+        fileService.save(resFile);
+        return resFile;
     }
 
     public Result<SysFile> updateFile(Integer fileId, MultipartFile file) {
@@ -115,60 +143,25 @@ public class FileService {
         return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
     }
 
-    public SysFile deduplication(MultipartFile file) {
-        // 计算hash值，并查看文件是否已经存在
-        String hash;
-        try {
-            byte[] bytes = file.getBytes();
-            hash = FileUtil.getSha256(bytes);
-        } catch (IOException e) {
-            throw new BusinessException(e.getMessage());
-        }
+    public SysFile deduplication(String fileName, String hash) {
+        // 查询hash值是否存在
         SysFile sysFile = fileService.selectByHash(hash);
-        // 如果文件已经存在，那直接返回，达到秒传效果
-        if (sysFile != null) {
-            return SysFile.builder()
-                    .fileName(file.getOriginalFilename())
-                    .path(sysFile.getPath())
-                    .size(sysFile.getSize())
-                    .hash(hash)
-                    .build();
+
+        // 如果文件不存在，则返回空
+        if (null == sysFile) {
+            return null;
         }
 
-        // 普通保存文件
-        return commonSave(file, hash);
-    }
-
-    /**
-     * 普通保存文件方法
-     *
-     * @param file  文件
-     * @param hash  哈希值
-     * @return      文件信息对象
-     */
-    private SysFile commonSave(MultipartFile file, String hash) {
-        String originalFilename = file.getOriginalFilename();
-        String path = FileUtil.getSavePath(savePath, originalFilename);
-        File dest = new File(path);
-        // 若是路径不存在就先创建父级目录
-        if (!dest.exists()) {
-            cn.hutool.core.io.FileUtil.touch(dest);
-        }
-        // 保存文件
-        try {
-            file.transferTo(dest);
-        } catch (IOException e) {
-            log.error("保存文件出错，保存的文件名称为：" + originalFilename);
-            log.error("保存文件出错，保存的路径为：" + path);
-            throw new BusinessException(e.getMessage());
-        }
-
-        return SysFile.builder()
-                .fileName(originalFilename)
-                .path(path)
-                .size(file.getSize())
+        // 如果文件已经存在，那使用之前文件的路径返回
+        SysFile resFile = SysFile.builder()
+                .fileName(fileName)
+                .path(sysFile.getPath())
+                .size(sysFile.getSize())
                 .hash(hash)
                 .build();
+        // 保存文件记录，并返回
+        fileService.save(resFile);
+        return resFile;
     }
 
 }

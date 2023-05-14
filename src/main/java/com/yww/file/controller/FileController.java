@@ -41,6 +41,14 @@ public class FileController {
     }
 
     /**
+     * 普通地上传文件并保存
+     */
+    @PostMapping("saveFileByHash/{hash}")
+    public Result<SysFile> saveFileByHash(@PathVariable String hash, @RequestPart MultipartFile file) {
+        return Result.success(service.saveFileByHash(hash, file));
+    }
+
+    /**
      * 通过文件ID更新文件
      */
     @PutMapping ("/updateFile/{fileId}")
@@ -62,9 +70,9 @@ public class FileController {
     /**
      * 文件秒传
      */
-    @PostMapping("/deduplication")
-    public Result<SysFile> deduplication(@RequestPart MultipartFile file) {
-        return Result.success(service.deduplication(file));
+    @PostMapping("/deduplication/{fileName}/{hash}")
+    public Result<SysFile> deduplication(@PathVariable String fileName, @PathVariable String hash) {
+        return Result.success(service.deduplication(fileName, hash));
     }
 
 }
