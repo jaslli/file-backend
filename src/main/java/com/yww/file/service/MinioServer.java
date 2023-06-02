@@ -45,56 +45,10 @@ public class MinioServer {
     /**
      * 下载文件
      */
-    public void fileDownload(String fileName,
-                             String bucketName,
-                             HttpServletResponse response) {
-        InputStream inputStream   = null;
-        OutputStream outputStream = null;
-        try {
-            if (StringUtils.isBlank(fileName)) {
-                response.setHeader("Content-type", "text/html;charset=UTF-8");
-                String data = "文件下载失败";
-                OutputStream ps = response.getOutputStream();
-                ps.write(data.getBytes(StandardCharsets.UTF_8));
-                return;
-            }
-            MinioClient minioClient = getMinioClient();
-            outputStream = response.getOutputStream();
-            // 获取文件对象
-            inputStream = minioClient.getObject(GetObjectArgs.builder().bucket(bucketName).object(fileName).build());
-            byte[] buf = new byte[1024];
-            int length;
-            response.reset();
-            response.setHeader("Content-Disposition", "attachment;filename=" +
-                    URLEncoder.encode(fileName.substring(fileName.lastIndexOf("/") + 1), "UTF-8"));
-            response.setContentType("application/octet-stream");
-            response.setCharacterEncoding("UTF-8");
-            // 输出文件
-            while ((length = inputStream.read(buf)) > 0) {
-                outputStream.write(buf, 0, length);
-            }
-            System.out.println("下载成功");
-            inputStream.close();
-        } catch (Throwable ex) {
-            response.setHeader("Content-type", "text/html;charset=UTF-8");
-            String data = "文件下载失败";
-            try {
-                OutputStream ps = response.getOutputStream();
-                ps.write(data.getBytes(StandardCharsets.UTF_8));
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-        } finally {
-            try {
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-                if (inputStream != null) {
-                    inputStream.close();
-                }}catch (IOException e){
-                e.printStackTrace();
-            }
-        }
+    public static void fileDownload(String fileName, String bucketName, String savePath) throws Exception {
+        MinioClient minioClient = getMinioClient();
+        InputStream inputStream = minioClient.getObject(GetObjectArgs.builder().bucket(bucketName).object(fileName).build());
+        FileUtil.writeFromStream(inputStream, FileUtil.file(savePath));
     }
 
 }
